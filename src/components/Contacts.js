@@ -20,10 +20,15 @@ let users = [
 
 
 function Contacts () {
-    const [avatarState, setAvatarState] = useState(null)
     const [usersList, setUsersList] = useState(users)
+    const [userState, setUserState] = useState({id:null, avatar:null, name:null, number:null})
+    
     function editAvatar(img) {
-        
+        if (userState.id){
+            setUserState({...useState, avatar: img})
+            usersList[userState.id] = userState
+            setUsersList(usersList)
+        }
     }
     
 

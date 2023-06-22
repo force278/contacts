@@ -1,7 +1,7 @@
 import {useState} from 'react'
 import style from './ListItem.module.css'
 
-function ListItem ({avatar, name, number}) {
+function ListItem ({avatar, name, number, index}) {
     const [focusState, setFocusState] = useState(false)
 
 
