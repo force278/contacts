@@ -1,0 +1,60 @@
+.BoxStyle {
+    width: 500px;
+    height: 500px;
+    border-radius: 10px;
+    background-color: #505050;
+    margin-left: 20px;
+    display: flex;
+    padding: 20px;
+}
+
+h3 {
+    color: white;
+    margin-left: 10px;
+}
+
+.InputNameStyle {
+    width: 200px;
+    height: 30px;
+    border-radius: 10px;
+    background-color: #808080;
+    margin-bottom: 20px;
+}
+
+.InputNumberStyle{
+    width: 200px;
+    height: 30px;
+    border-radius: 10px;
+    background-color: #808080;
+    margin-bottom: 20px;
+}
+
+.AvatarStyle {
+    width: 120px;
+    height: 120px;
+    background-color: black;
+    border-radius: 120px;
+    margin: auto;
+  }
+
+
+
+.ImgStyle {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    border-radius: 100%;
+}
+
+.AvatarEditButtonStyle {
+    position: relative;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    border-radius: 20px;
+    background-color: rgba(0, 0, 0, 0.3);
+    bottom: 30px;
+    margin-left: auto;
+    text-align: center;
+    font-size: large;
+}
