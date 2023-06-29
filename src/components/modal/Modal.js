@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 import styles from './Modal.module.css'
 
-function Modal({modalState, setModalState, editAvatar}) {
+function Modal({userState, changeAvatar, deleteAvatar, modalState, setModalState}) {
     const InputImg = useRef(null)
 
     return (
@@ -12,12 +12,24 @@ function Modal({modalState, setModalState, editAvatar}) {
                     <input 
                     id='imageInput'
                     type='file'
-                    accept='image/jpeg, image/png' ref={InputImg} className={styles.ImgInputStyle} onChange={() => {
-                        editAvatar(InputImg.current.value) 
-                        setModalState({active:false, img:InputImg.current.value})
+                    accept='image/jpeg, image/png' ref={InputImg} className={styles.ImgInputStyle} onChange={() => { 
+                        let path = InputImg.current.value
+                            if (path.substr(0, 12) === "C:\\fakepath\\")
+                                path = path.substr(12); // modern browser
+                            var x;
+                            x = path.lastIndexOf('/');
+                            x = path.lastIndexOf('\\');
+                                path = path.substr(x+1);
+                        setModalState({active:false, img:path})
+                        changeAvatar(path)
                         }}></input>
                     <label className={styles.EditBtnStyle} htmlFor='imageInput'>Изменить</label>
-                    <label className={styles.DeleteBtnStyle}>Удалить</label>
+                    {userState.avatar ?
+                        <label className={styles.DeleteBtnStyle} onClick={()=>{
+                            setModalState({active:false, img:null})
+                            deleteAvatar(userState.id)}}>Удалить</label>
+                        : null
+                    }
                 </div>
                 : null
             }

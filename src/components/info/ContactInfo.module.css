@@ -1,11 +1,35 @@
+
 .BoxStyle {
     width: 500px;
     height: 500px;
     border-radius: 10px;
     background-color: #505050;
     margin-left: 20px;
-    display: flex;
     padding: 20px;
+}
+
+.AvatarAndInfoBoxStyle {
+    display: flex;
+
+}
+
+select {
+    border-radius: 10px;
+    background-color: #808080;
+}
+
+
+.PhotoBoxStyle {
+    height: max-content;
+}
+
+.InfoBoxStyle {
+    margin-left: 20px;
+    height: max-content;
+}
+
+.GroupBoxStyle {
+    margin-left: 10px;
 }
 
 h3 {
@@ -57,4 +81,16 @@ h3 {
     margin-left: auto;
     text-align: center;
     font-size: large;
+}
+
+.SaveEditButtonStyle {
+    border-radius: 10px;
+    background-color: rgb(109, 167, 110);
+    margin: 10px;
+}
+
+.DeleteButtonStyle {
+    border-radius: 10px;
+    background-color: tomato;
+    margin: 10px;
 }

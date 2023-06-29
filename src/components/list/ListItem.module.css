@@ -46,3 +46,8 @@
     text-align: center;
     font-weight: bold;
 }
+
+::placeholder {
+    color: black;
+    font-size: large;
+}

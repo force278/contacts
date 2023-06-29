@@ -22,7 +22,7 @@
     flex-Direction: column;
     width: 200px;
     height: max-content;
-    background-Color: white;
+    background-Color: #BEBEBE;
     border-Radius: 10px;
 }
 
@@ -61,4 +61,5 @@
     border-Width: 0;
     font-Size: 16px;
     border-Radius: 10px;
+    background-color: #BEBEBE;
 }
