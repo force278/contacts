@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 import styles from './Modal.module.css'
 
-function Modal({userState, changeAvatar, deleteAvatar, modalState, setModalState}) {
+function Modal({avatarState, changeAvatar, deleteAvatar, modalState, setModalState}) {
     const InputImg = useRef(null)
 
     return (
@@ -24,10 +24,10 @@ function Modal({userState, changeAvatar, deleteAvatar, modalState, setModalState
                         changeAvatar(path)
                         }}></input>
                     <label className={styles.EditBtnStyle} htmlFor='imageInput'>Изменить</label>
-                    {userState.avatar ?
+                    {avatarState ?
                         <label className={styles.DeleteBtnStyle} onClick={()=>{
                             setModalState({active:false, img:null})
-                            deleteAvatar(userState.id)}}>Удалить</label>
+                            deleteAvatar()}}>Удалить</label>
                         : null
                     }
                 </div>

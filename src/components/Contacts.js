@@ -30,90 +30,158 @@ let users = [
 
 function Contacts () {
     const [usersList, setUsersList] = useState(users)
-    const [userState, setUserState] = useState({id:null, avatar:null, name:null, number:null})
-    const [nameState, setNameState] = useState(userState.name)
-    const [numberState, setNumberState] = useState(userState.number)
-    const [groupState, setGroupState] = useState(userState.group)
+    const [idState, setIdState] = useState(null)
+    const [avatarState, setAvatarState] = useState('')
+    const [nameState, setNameState] = useState('')
+    const [numberState, setNumberState] = useState('')
+    const [groupState, setGroupState] = useState(null)
+    const [searchGroupState, setSearchGroupState] = useState(0)
+    const [searchInputState, setSearchInputState] = useState('')
+    const [activeItemState, setActiveItemState] = useState(null)
 
-    function changeUser(index) {
-        setUserState(usersList[index])
-        setNameState(usersList[index].name)
-        setNumberState(usersList[index].number)
-        setGroupState(usersList[index].group)
+    function changeUser(id) {
+        for (let i = 0; i < users.length; i++){
+            if(users[i].id === id) {
+                setIdState(users[i].id)
+                setAvatarState(users[i].avatar)
+                setNameState(users[i].name)
+                setNumberState(users[i].number)
+                setGroupState(users[i].group)
+                break
+            }
+        }
+        
     }
 
     function changeAvatar(img) {
-        let List = usersList
-        List[userState.id-1].avatar = img 
-        setUsersList(List)
-        setUserState({...userState, avatar:img})
+        if (idState){
+            for (let i = 0; i < users.length; i++){
+                if(users[i].id === idState) {
+                    users[i].avatar = img
+                    setAvatarState(img)                
+                    break
+                }
+            }
+        } else {
+            setAvatarState(img)
+        }
+        
     }
 
     function deleteAvatar() {
-        let List = usersList
-        List[userState.id-1].avatar = null 
-        setUsersList(List)
-        setUserState({...userState, avatar:null})
+        if (idState){
+            for (let i = 0; i < users.length; i++){
+                if(users[i].id === idState) {
+                    users[i].avatar = ''
+                    setAvatarState('')                
+                    break
+                }
+            }
+        }
+        else {
+            setAvatarState('')
+        }
+        
     }
     
-    function editUser(info) {  
-        if (userState.id) {
-            let List = usersList
-            if (info.name)
-                List[userState.id-1].name = info.name
-            if (info.number)
-                List[userState.id-1].number = info.number
-    
-            for (let i = 0; i < groups.length; i++){      
-                if (groups[i].group === info.group)
-                    info.group = groups[i].id
-            }
-            List[userState.id-1].group = info.group
-            setUsersList(List)
-            setUserState({...userState, name:info.name, number:info.number, group:info.group})    
+    function editUser() {  
+        if (nameState !== '' && numberState !== '') {
+            for (let i = 0; i < users.length; i++){
+                if(users[i].id === idState) {
+                    let List = [...users]
+                    List[i].name = nameState
+                    List[i].number = numberState
+                    List[i].group = groupState
+                    users = List
+                    setSearchInputState('')
+                    setSearchGroupState(0)
+                    setUsersList(List)     
+                    break
+                }
             }
         }
+        
+    }
 
     function deleteUser() {
-        if (userState.id) {            
-            let List = usersList
-            List.splice(userState.id-1, 1)
-            for (let i = 0; i < List.length; i++){
-                List[i].id = i+1 
+        if (idState){
+            for (let i = 0; i < users.length; i++){
+                if(users[i].id === idState) {
+                    users.splice(i, 1)
+                    let List = [...users]
+                    setIdState(null)
+                    setNameState('')
+                    setAvatarState('')
+                    setNumberState('')
+                    setGroupState(0)
+                    setActiveItemState(null)
+                    setSearchInputState('')
+                    setSearchGroupState(0)
+                    setUsersList(List)                
+                    break
+                }
             }
-            setUserState({id:null, avatar:null, name:null, number:null})
-            setNumberState('')
-            setNameState('')
-            setGroupState('')
-            setUsersList(List)
-            console.log(usersList)
         }
+        
         
 
     }
 
-    
+    function addUser() {
+        if (idState === null && nameState !== '' && numberState !== ''){
+            users.push({id:users[users.length-1].id+1, avatar:avatarState, name:nameState, number:numberState, group:groupState})
+            let List = [...users]
+            setSearchInputState('')
+            setSearchGroupState(0)
+            setUsersList(List)
+        }
+    }
+
+    function search(name, group) {
+        let List = []
+        if (group == 0){
+            for(let i=0; i < users.length; i++){
+                if (name.toLowerCase().includes(name.toLowerCase()) === true){
+                    List.push(users[i])
+                }
+            }
+        } else {
+            for(let i=0; i < users.length; i++){
+                if (name.toLowerCase().includes(name.toLowerCase()) === true && group == users[i].group){
+                    List.push(users[i])
+                }
+            }
+        }
+        setIdState(null)
+        setAvatarState('')
+        setNameState('')
+        setNumberState('')
+        setGroupState(0)
+        setUsersList(List)
+
+    }
 
     return (
         <div>
             <div className={styles.HeaderTextStyle}>Контакты</div>
             <div className={styles.BoxStyle}>
-                <ContactSearch groups={groups}/>
+                <ContactSearch groups={groups} search={search} searchGroupState={searchGroupState} setSearchGroupState={setSearchGroupState} searchInputState={searchInputState} setSearchInputState={setSearchInputState}/>
                 <div className={styles.ContactsBoxStyle}>
                     <ContactsList>
                     {
                         usersList.length !== 0 ? usersList.map((item, index)=>{
                             let focus = false
-                            if (index === userState.id-1)         
-                                focus = true
+                            if (activeItemState === index){
+                                focus = true 
+                            }
                             return(
-                                <ListItem focus={focus} changeUser={changeUser} key={index} avatar={item.avatar} name={item.name} index={index} />
+                                <ListItem key={index} id={item.id} index={index} focus={focus} changeUser={changeUser} avatar={item.avatar} name={item.name} setActiveItemState={setActiveItemState} />
                             )
                             
                         }) : <h4 className={styles.EmptyTextStyle}>Тут пока пусто🥺</h4>
                     }   
                     </ContactsList>
-                    <ContactInfo userState={userState} changeAvatar={changeAvatar} deleteAvatar={deleteAvatar} editUser={editUser} groups={groups} nameState={nameState} setNameState={setNameState} numberState={numberState} setNumberState={setNumberState} groupState={groupState} setGroupState={setGroupState} deleteUser={deleteUser}/>
+                    <ContactInfo idState={idState} changeAvatar={changeAvatar} deleteAvatar={deleteAvatar} editUser={editUser} groups={groups} avatarState={avatarState} setAvatarState={setAvatarState} nameState={nameState} setNameState={setNameState} numberState={numberState} setNumberState={setNumberState} groupState={groupState} setGroupState={setGroupState} deleteUser={deleteUser} addUser={addUser}/>
                 </div>
             </div>
         </div>

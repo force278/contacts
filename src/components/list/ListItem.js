@@ -1,12 +1,13 @@
 import {useState} from 'react'
 import style from './ListItem.module.css'
 
-function ListItem ({focus, changeUser, avatar, name, number, index}) {
+function ListItem ({setActiveItemState, focus, changeUser, avatar, name, id, index}) {
 
 
     return (
         <div className={focus ? style.BoxInFocusStyle : style.BoxStyle} onClick={()=>{
-            changeUser(index)
+            setActiveItemState(index)
+            changeUser(id)
             }}>
             <div className={style.AvatarStyle}>
                 {avatar ? 

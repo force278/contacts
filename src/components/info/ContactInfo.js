@@ -3,7 +3,7 @@ import Modal from '../modal/Modal';
 import styles from './ContactInfo.module.css'
 
 
-function ContactInfo ({userState, changeAvatar, deleteAvatar, editUser, groups, nameState, setNameState, numberState, setNumberState, groupState, setGroupState, deleteUser}) {
+function ContactInfo ({idState, changeAvatar, deleteAvatar, editUser, groups, avatarState, setAvatarState={setAvatarState}, nameState, setNameState, numberState, setNumberState, groupState, setGroupState, deleteUser, addUser}) {
     const [modalState, setModalState] = useState({active:false, img:null})
     
 
@@ -14,15 +14,15 @@ function ContactInfo ({userState, changeAvatar, deleteAvatar, editUser, groups, 
                     <div className={styles.PhotoBoxStyle}>
                         <h3>Фото профиля</h3>
                         <div className={styles.AvatarStyle}>
-                            {userState.avatar ? 
-                                <img className={styles.ImgStyle} src={userState.avatar} alt='a'></img>
+                            {avatarState ? 
+                                <img className={styles.ImgStyle} src={avatarState} alt='a'></img>
                             :
                                 <img className={styles.ImgStyle} src='https://oir.mobi/uploads/posts/2022-08/1661338484_7-oir-mobi-p-pustoi-fon-vkontakte-9.png' alt='a'></img>
                             }
-                            {userState.id ? 
+                            {idState ? 
                                 <div className={styles.AvatarEditButtonStyle} onClick={()=> {setModalState({active:!modalState.active, img:modalState.img})}}>✎</div>
                             :
-                                null
+                                <div className={styles.AvatarEditButtonStyle} onClick={()=> {setModalState({active:!modalState.active, img:modalState.img})}}>✎</div>
                             }
                         </div>
                     </div>
@@ -52,18 +52,18 @@ function ContactInfo ({userState, changeAvatar, deleteAvatar, editUser, groups, 
                         }
                     </select>
                 </div>
-                {userState.id ? 
+                {idState ? 
                     <div>
-                        <button className={styles.SaveEditButtonStyle} onClick={()=>{editUser({name:nameState, number:numberState, group:groupState})}}>Сохранить изменения</button>
+                        <button className={styles.SaveEditButtonStyle} onClick={()=>{editUser()}}>Сохранить изменения</button>
                         <button className={styles.DeleteButtonStyle} onClick={deleteUser}>Удалить контакт</button>
                     </div>
                 :
                     <div>
-                        <button className={styles.SaveEditButtonStyle} >Добавить контакт</button>
+                        <button className={styles.SaveEditButtonStyle} onClick={addUser} >Добавить контакт</button>
                     </div>
                 }
                 
-                <Modal userState={userState} changeAvatar={changeAvatar} deleteAvatar={deleteAvatar} modalState={modalState} setModalState={setModalState} onClick={()=> {setModalState({active:false, img:modalState.img})}} />
+                <Modal avatarState={avatarState} changeAvatar={changeAvatar} deleteAvatar={deleteAvatar} modalState={modalState} setModalState={setModalState} onClick={()=> {setModalState({active:false, img:modalState.img})}} />
             </div>
             
     )
