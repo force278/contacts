@@ -141,13 +141,13 @@ function Contacts () {
         let List = []
         if (group == 0){
             for(let i=0; i < users.length; i++){
-                if (name.toLowerCase().includes(name.toLowerCase()) === true){
+                if (users[i].name.toLowerCase().includes(name.toLowerCase()) === true){
                     List.push(users[i])
                 }
             }
         } else {
             for(let i=0; i < users.length; i++){
-                if (name.toLowerCase().includes(name.toLowerCase()) === true && group == users[i].group){
+                if (users[i].name.toLowerCase().includes(name.toLowerCase()) === true && group == users[i].group){
                     List.push(users[i])
                 }
             }
